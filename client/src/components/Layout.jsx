@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
   BookOpen, LayoutDashboard, ArrowLeftRight, Users, Bot, SearchCode,
-  LogOut, Menu, X, Moon, Sun, ChevronDown, Shield, BookMarked, User,
+  LogOut, Menu, X, ChevronDown, Shield, BookMarked, User,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import DarkVeil from './DarkVeil';
@@ -16,16 +16,13 @@ const NAV_ITEMS = [
   { to: '/ai-assistant', icon: Bot, label: 'AI Assistant', roles: ['admin', 'librarian', 'member'] },
 ];
 
-const VEIL_PRESETS = {
-  dark: { hueShift: 200, noiseIntensity: 0.03, scanlineIntensity: 0, speed: 0.3, scanlineFrequency: 0, warpAmount: 0.4 },
-  light: { hueShift: 30, noiseIntensity: 0.01, scanlineIntensity: 0, speed: 0.2, scanlineFrequency: 0, warpAmount: 0.2 },
-};
+const VEIL_CONFIG = { hueShift: 40, noiseIntensity: 0.03, scanlineIntensity: 0, speed: 0.3, scanlineFrequency: 0, warpAmount: 0.4 };
 
 function RoleBadge({ role }) {
   const styles = {
-    admin: 'bg-red-500/15 text-red-300 dark:text-red-400',
-    librarian: 'bg-blue-500/15 text-blue-300 dark:text-blue-400',
-    member: 'bg-emerald-500/15 text-emerald-300 dark:text-emerald-400',
+    admin: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+    librarian: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+    member: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
   };
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${styles[role] || ''}`}>
@@ -36,17 +33,10 @@ function RoleBadge({ role }) {
 }
 
 export default function Layout() {
-  const { user, logout, hasRole, theme, setTheme } = useAuth();
+  const { user, logout, hasRole } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-
-  const dark = theme === 'dark';
-  const veilConfig = useMemo(() => dark ? VEIL_PRESETS.dark : VEIL_PRESETS.light, [dark]);
-
-  const toggleDark = () => {
-    setTheme(dark ? 'light' : 'dark');
-  };
 
   const handleLogout = () => {
     logout();
@@ -56,13 +46,11 @@ export default function Layout() {
   const filteredNav = NAV_ITEMS.filter(item => item.roles.some(r => hasRole(r)));
 
   return (
-    <div className="flex h-screen overflow-hidden relative">
+    <div className="flex h-screen overflow-hidden relative animate-fade-in">
       {/* Animated background */}
-      <div className="fixed inset-0 z-0">
-        <DarkVeil {...veilConfig} resolutionScale={0.5} />
-        <div className={`absolute inset-0 transition-colors duration-500 ${
-          dark ? 'bg-gray-950/60' : 'bg-white/50'
-        }`} />
+      <div className="fixed inset-0 z-0" style={{ width: '100%', height: '100%' }}>
+        <DarkVeil {...VEIL_CONFIG} />
+        <div className="absolute inset-0 bg-gray-950/25" />
       </div>
 
       {/* Sidebar */}
@@ -97,8 +85,8 @@ export default function Layout() {
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-white/20 dark:bg-white/10 text-primary-700 dark:text-primary-400 shadow-sm'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-white/10 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200'
+                      ? 'bg-primary-50 dark:bg-white/10 text-primary-700 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-white/20 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200'
                   }`
                 }
               >
@@ -111,7 +99,7 @@ export default function Layout() {
           {/* User */}
           <div className="px-3 py-4 border-t border-white/10 dark:border-white/5">
             <div className="flex items-center gap-3 px-3 py-2">
-              <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary-500/20 text-primary-400">
+              <div className="flex items-center justify-center w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-500/20 text-primary-700 dark:text-primary-400">
                 <User className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
@@ -138,19 +126,12 @@ export default function Layout() {
 
           <div className="flex-1" />
 
-          <button
-            onClick={toggleDark}
-            className="p-2 rounded-lg glass-button transition-all duration-200"
-          >
-            {dark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-gray-600" />}
-          </button>
-
           <div className="relative">
             <button
               onClick={() => setProfileOpen(p => !p)}
               className="flex items-center gap-2 p-1.5 pr-3 rounded-lg glass-button transition-all duration-200"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-500/20 text-primary-400 text-sm font-medium">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-500/20 text-primary-700 dark:text-primary-400 text-sm font-medium">
                 {user?.name?.charAt(0)}
               </div>
               <span className="hidden sm:block text-sm font-medium text-gray-700 dark:text-gray-300">{user?.name}</span>

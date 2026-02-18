@@ -19,7 +19,7 @@ function ChatMessage({ msg }) {
       <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
         isUser
           ? 'bg-primary-600 text-white rounded-br-md'
-          : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-md'
+          : 'bg-white/30 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-bl-md'
       }`}>
         <div className="whitespace-pre-wrap">{msg.content}</div>
         {msg.source && !isUser && (
@@ -144,7 +144,7 @@ export default function AIAssistant() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200 dark:border-gray-800">
+      <div className="flex border-b border-white/20 dark:border-white/10">
         {[
           { id: 'chat', label: 'Chat', icon: MessageSquare },
           { id: 'search', label: 'Smart Search', icon: Search },
@@ -175,7 +175,7 @@ export default function AIAssistant() {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
-                <div className="px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-bl-md">
+                <div className="px-4 py-3 bg-white/30 dark:bg-white/10 rounded-2xl rounded-bl-md">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
@@ -193,7 +193,7 @@ export default function AIAssistant() {
               <p className="text-xs text-gray-400 mb-2">Try asking:</p>
               <div className="flex flex-wrap gap-2">
                 {suggestedQueries.map(q => (
-                  <button key={q} onClick={() => { setInput(q); }} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <button key={q} onClick={() => { setInput(q); }} className="px-3 py-1.5 bg-white/30 dark:bg-white/10 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/15 transition-colors">
                     {q}
                   </button>
                 ))}
@@ -201,7 +201,7 @@ export default function AIAssistant() {
             </div>
           )}
 
-          <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+          <div className="p-4 border-t border-white/20 dark:border-white/10">
             <form onSubmit={e => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
               <input
                 className="input flex-1"
@@ -319,7 +319,7 @@ export default function AIAssistant() {
                       )}
                     </div>
                     {book.reason && (
-                      <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+                      <div className="pt-2 border-t border-white/20 dark:border-white/10">
                         <p className="text-xs text-purple-600 dark:text-purple-400 flex items-start gap-1">
                           <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" />
                           {book.reason}

@@ -95,7 +95,7 @@ function ResultCard({ result, query }) {
           )}
 
           {result.snippet && (
-            <div className="mt-2 px-3 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <div className="mt-2 px-3 py-2 bg-white/30 dark:bg-white/5 rounded-lg text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
               <HighlightedText text={result.snippet} query={query} />
             </div>
           )}
@@ -221,7 +221,7 @@ export default function ContentSearch() {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   scope === opt.value
                     ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
-                    : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    : 'text-gray-500 hover:bg-white/30 dark:hover:bg-white/10'
                 }`}
               >
                 <opt.icon className="w-3 h-3" />
@@ -240,7 +240,7 @@ export default function ContentSearch() {
                 <button
                   key={eq}
                   onClick={() => { setQuery(eq); setPage(1); }}
-                  className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  className="px-3 py-1.5 bg-white/30 dark:bg-white/10 rounded-full text-xs text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/15 transition-colors"
                 >
                   "{eq}"
                 </button>

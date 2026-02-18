@@ -3,10 +3,9 @@ import { getMe, updateProfile } from '../services/api';
 
 const AuthContext = createContext(null);
 
-function applyTheme(theme) {
-  const isDark = theme === 'dark';
-  document.documentElement.classList.toggle('dark', isDark);
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+function applyTheme() {
+  document.documentElement.classList.add('dark');
+  localStorage.setItem('theme', 'dark');
 }
 
 export function AuthProvider({ children }) {
@@ -22,9 +21,7 @@ export function AuthProvider({ children }) {
     try {
       const { data } = await getMe();
       setUser(data.user);
-      if (data.user.theme) {
-        applyTheme(data.user.theme);
-      }
+      applyTheme();
     } catch {
       localStorage.removeItem('token');
       setUser(null);
@@ -40,15 +37,11 @@ export function AuthProvider({ children }) {
   const loginWithToken = useCallback((token, userData) => {
     localStorage.setItem('token', token);
     setUser(userData);
-    if (userData.theme) {
-      applyTheme(userData.theme);
-    }
+    applyTheme();
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
-    localStorage.removeItem('theme');
-    document.documentElement.classList.remove('dark');
     setUser(null);
   }, []);
 
@@ -71,7 +64,7 @@ export function AuthProvider({ children }) {
   const isLibrarian = user?.role === 'librarian';
   const isMember = user?.role === 'member';
   const isStaff = isAdmin || isLibrarian;
-  const theme = user?.theme || localStorage.getItem('theme') || 'light';
+  const theme = 'dark';
 
   return (
     <AuthContext.Provider value={{ user, loading, loginWithToken, logout, loadUser, hasRole, isAdmin, isLibrarian, isMember, isStaff, theme, setTheme }}>

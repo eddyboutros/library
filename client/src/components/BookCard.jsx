@@ -67,7 +67,7 @@ export default function BookCard({ book, onClick }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800">
+        <div className="flex items-center justify-between pt-2 border-t border-white/20 dark:border-white/10">
           <span className="text-xs text-gray-500 dark:text-gray-400">
             {book.availableCopies}/{book.totalCopies} available
           </span>

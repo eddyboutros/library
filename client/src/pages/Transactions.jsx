@@ -119,7 +119,7 @@ export default function Transactions() {
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 statusFilter === s
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
-                  : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'text-gray-500 hover:bg-white/30 dark:hover:bg-white/10'
               }`}
             >
               {s === '' ? 'All' : s === 'active' ? 'Active' : 'Returned'}
@@ -141,7 +141,7 @@ export default function Transactions() {
       ) : (
         <div className="card overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-800/50">
+            <thead className="bg-white/30 dark:bg-white/5">
               <tr>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">Book</th>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">Borrower</th>
@@ -155,7 +155,7 @@ export default function Transactions() {
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
               {transactions.map(tx => (
-                <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/30">
+                <tr key={tx.id} className="hover:bg-white/20 dark:hover:bg-white/5">
                   <td className="px-4 py-3">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">{tx.bookTitle}</p>
@@ -228,9 +228,9 @@ export default function Transactions() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowCheckout(false)} />
           <div className="relative glass-modal rounded-2xl shadow-xl w-full max-w-lg">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/60 dark:border-white/10">
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">Check Out Book</h2>
-              <button onClick={() => setShowCheckout(false)} className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+              <button onClick={() => setShowCheckout(false)} className="p-1 rounded-lg hover:bg-white/30 dark:hover:bg-white/10">
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
@@ -266,7 +266,7 @@ export default function Transactions() {
                 <input className="input" value={checkoutForm.notes} onChange={e => setCheckoutForm(f => ({ ...f, notes: e.target.value }))} placeholder="Optional notes..." />
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200/60 dark:border-white/10">
                 <button type="button" onClick={() => setShowCheckout(false)} className="btn-secondary">Cancel</button>
                 <button type="submit" disabled={submitting} className="btn-primary">
                   {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}

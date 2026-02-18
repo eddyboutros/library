@@ -128,11 +128,11 @@ export default function Books() {
             Available only
           </label>
 
-          <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-            <button onClick={() => setView('grid')} className={`p-2 ${view === 'grid' ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}>
+          <div className="flex border border-white/20 dark:border-white/10 rounded-lg overflow-hidden">
+            <button onClick={() => setView('grid')} className={`p-2 ${view === 'grid' ? 'bg-white/30 dark:bg-white/10 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}>
               <Grid3X3 className="w-4 h-4" />
             </button>
-            <button onClick={() => setView('list')} className={`p-2 ${view === 'list' ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}>
+            <button onClick={() => setView('list')} className={`p-2 ${view === 'list' ? 'bg-white/30 dark:bg-white/10 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}>
               <List className="w-4 h-4" />
             </button>
           </div>
@@ -158,7 +158,7 @@ export default function Books() {
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-800/50">
+            <thead className="bg-white/30 dark:bg-white/5">
               <tr>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">Title</th>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400 hidden sm:table-cell">Author</th>
@@ -170,7 +170,7 @@ export default function Books() {
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
               {books.map(book => (
-                <tr key={book.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/30 cursor-pointer" onClick={() => openBook(book)}>
+                <tr key={book.id} className="hover:bg-white/20 dark:hover:bg-white/5 cursor-pointer" onClick={() => openBook(book)}>
                   <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{book.title}</td>
                   <td className="px-4 py-3 text-gray-600 dark:text-gray-400 hidden sm:table-cell">{book.author}</td>
                   <td className="px-4 py-3 hidden md:table-cell"><span className="badge-blue">{book.genre}</span></td>
@@ -190,7 +190,7 @@ export default function Books() {
                   <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                     {isStaff && (
                       <div className="flex justify-end gap-1">
-                        <button onClick={() => { setEditBook(book); setShowForm(true); }} className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                        <button onClick={() => { setEditBook(book); setShowForm(true); }} className="p-1.5 hover:bg-white/30 dark:hover:bg-white/10 rounded-lg">
                           <Edit className="w-3.5 h-3.5 text-gray-400" />
                         </button>
                         {user?.role === 'admin' && (

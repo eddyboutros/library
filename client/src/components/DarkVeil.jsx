@@ -8,9 +8,7 @@ void main(){gl_Position=vec4(position,0.0,1.0);}
 `;
 
 const fragment = `
-#ifdef GL_ES
-precision lowp float;
-#endif
+precision highp float;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uHueShift;
@@ -87,36 +85,47 @@ export default function DarkVeil({
 
   useEffect(() => {
     const canvas = ref.current;
+    if (!canvas) return;
     const parent = canvas.parentElement;
+    if (!parent) return;
 
-    const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
-      canvas,
-    });
+    let renderer, program, mesh;
+    try {
+      renderer = new Renderer({
+        dpr: Math.min(window.devicePixelRatio, 2),
+        canvas,
+      });
 
-    const gl = renderer.gl;
-    const geometry = new Triangle(gl);
+      const gl = renderer.gl;
+      gl.clearColor(0, 0, 0, 1);
 
-    const program = new Program(gl, {
-      vertex,
-      fragment,
-      uniforms: {
-        uTime: { value: 0 },
-        uResolution: { value: new Vec2() },
-        uHueShift: { value: hueShift },
-        uNoise: { value: noiseIntensity },
-        uScan: { value: scanlineIntensity },
-        uScanFreq: { value: scanlineFrequency },
-        uWarp: { value: warpAmount },
-      },
-    });
+      const geometry = new Triangle(gl);
+      program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: { value: new Vec2() },
+          uHueShift: { value: hueShift },
+          uNoise: { value: noiseIntensity },
+          uScan: { value: scanlineIntensity },
+          uScanFreq: { value: scanlineFrequency },
+          uWarp: { value: warpAmount },
+        },
+      });
 
-    const mesh = new Mesh(gl, { geometry, program });
+      mesh = new Mesh(gl, { geometry, program });
+    } catch (err) {
+      console.error('DarkVeil WebGL init failed:', err);
+      return;
+    }
 
     const resize = () => {
-      const w = parent.clientWidth;
-      const h = parent.clientHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
       renderer.setSize(w * resolutionScale, h * resolutionScale);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
       program.uniforms.uResolution.value.set(w, h);
     };
 

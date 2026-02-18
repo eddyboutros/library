@@ -11,13 +11,14 @@ import {
   getBook, getBookChapters, createChapter, updateChapter, deleteChapter,
   selfCheckout, addReview, updateBook, deleteBook,
 } from '../services/api';
+import BookFormModal from '../components/BookFormModal';
 
 function ChapterView({ chapter, isStaff, onEdit, onDelete, isExpanded, onToggle }) {
   return (
-    <div className="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
+    <div className="border border-white/20 dark:border-white/10 rounded-lg overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/20 dark:hover:bg-white/5 transition-colors text-left"
       >
         <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 text-sm font-bold flex-shrink-0">
           {chapter.chapterNumber}
@@ -32,7 +33,7 @@ function ChapterView({ chapter, isStaff, onEdit, onDelete, isExpanded, onToggle 
       </button>
 
       {isExpanded && (
-        <div className="px-4 pb-4 border-t border-gray-100 dark:border-gray-800">
+        <div className="px-4 pb-4 border-t border-white/20 dark:border-white/10">
           {chapter.summary && (
             <div className="mt-3 px-3 py-2 bg-primary-50 dark:bg-primary-900/10 rounded-lg">
               <p className="text-sm text-primary-800 dark:text-primary-300 italic">{chapter.summary}</p>
@@ -47,7 +48,7 @@ function ChapterView({ chapter, isStaff, onEdit, onDelete, isExpanded, onToggle 
             <p className="mt-3 text-sm text-gray-400 italic">No content added yet.</p>
           )}
           {isStaff && (
-            <div className="mt-3 flex gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+            <div className="mt-3 flex gap-2 pt-2 border-t border-white/20 dark:border-white/10">
               <button onClick={() => onEdit(chapter)} className="btn-ghost text-xs px-2 py-1">
                 <Edit className="w-3 h-3" /> Edit
               </button>
@@ -94,11 +95,11 @@ function ChapterFormModal({ chapter, bookId, onSave, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative glass-modal rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 flex items-center justify-between px-6 py-4 glass-modal border-b border-white/10 rounded-t-2xl z-10">
+        <div className="sticky top-0 flex items-center justify-between px-6 py-4 glass-modal border-b border-gray-200/60 dark:border-white/10 rounded-t-2xl z-10">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white">
             {isEdit ? 'Edit Chapter' : 'Add Chapter'}
           </h2>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-white/30 dark:hover:bg-white/10">
             <X className="w-5 h-5 text-gray-400" />
           </button>
         </div>
@@ -133,7 +134,7 @@ function ChapterFormModal({ chapter, bookId, onSave, onClose }) {
             <textarea className="input min-h-[200px] resize-y font-mono text-sm" value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} rows={8} placeholder="Full chapter content..." />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200/60 dark:border-white/10">
             <button type="button" onClick={onClose} className="btn-secondary">Cancel</button>
             <button type="submit" disabled={saving || !form.title} className="btn-primary">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
@@ -157,7 +158,8 @@ export default function BookDetail() {
   const [loading, setLoading] = useState(true);
 
   const [expandedChapters, setExpandedChapters] = useState(new Set());
-  const [chapterForm, setChapterForm] = useState(null); // null = closed, {} = new, chapter = edit
+  const [chapterForm, setChapterForm] = useState(null);
+  const [showEditBook, setShowEditBook] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [reviewLoading, setReviewLoading] = useState(false);
   const [tab, setTab] = useState('chapters');
@@ -239,6 +241,17 @@ export default function BookDetail() {
       toast.error(err.response?.data?.error || 'Failed to add review');
     } finally {
       setReviewLoading(false);
+    }
+  };
+
+  const handleEditBookSave = async formData => {
+    try {
+      await updateBook(book.id, formData);
+      toast.success('Book updated');
+      setShowEditBook(false);
+      fetchData();
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Failed to update book');
     }
   };
 
@@ -333,16 +346,16 @@ export default function BookDetail() {
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{book.description}</p>
           )}
 
-          <div className="flex flex-wrap gap-2 pt-3 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-white/20 dark:border-white/10">
             {book.availableCopies > 0 && (
               <button onClick={handleSelfCheckout} className="btn-primary">
                 <BookOpen className="w-4 h-4" /> Borrow This Book
               </button>
             )}
             {isStaff && (
-              <Link to={`/books`} className="btn-secondary">
+              <button onClick={() => setShowEditBook(true)} className="btn-secondary">
                 <Edit className="w-4 h-4" /> Edit Book
-              </Link>
+              </button>
             )}
             {isAdmin && (
               <button onClick={handleDeleteBook} className="btn-danger">
@@ -354,7 +367,7 @@ export default function BookDetail() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200 dark:border-gray-800">
+      <div className="flex border-b border-white/20 dark:border-white/10">
         {[
           { id: 'chapters', label: `Chapters (${chapters.length})`, icon: FileText },
           { id: 'reviews', label: `Reviews (${reviews.length})`, icon: Star },
@@ -475,6 +488,15 @@ export default function BookDetail() {
           bookId={book.id}
           onSave={handleSaveChapter}
           onClose={() => setChapterForm(null)}
+        />
+      )}
+
+      {/* Edit Book Modal */}
+      {showEditBook && (
+        <BookFormModal
+          book={book}
+          onSave={handleEditBookSave}
+          onClose={() => setShowEditBook(false)}
         />
       )}
     </div>

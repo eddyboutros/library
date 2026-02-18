@@ -114,7 +114,7 @@ export default function UsersPage() {
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   roleFilter === r
                     ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
-                    : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    : 'text-gray-500 hover:bg-white/30 dark:hover:bg-white/10'
                 }`}
               >
                 {r === '' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}
@@ -137,7 +137,7 @@ export default function UsersPage() {
       ) : (
         <div className="card overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-800/50">
+            <thead className="bg-white/30 dark:bg-white/5">
               <tr>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400">User</th>
                 <th className="px-4 py-3 text-left font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">Email</th>
@@ -152,7 +152,7 @@ export default function UsersPage() {
                 const roleConf = ROLE_CONFIG[u.role] || ROLE_CONFIG.member;
                 const isSelf = u.id === currentUser?.id;
                 return (
-                  <tr key={u.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/30">
+                  <tr key={u.id} className="hover:bg-white/20 dark:hover:bg-white/5">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-sm font-medium">
@@ -233,9 +233,9 @@ export default function UsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowCreate(false)} />
           <div className="relative glass-modal rounded-2xl shadow-xl w-full max-w-md">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/60 dark:border-white/10">
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">Add New User</h2>
-              <button onClick={() => setShowCreate(false)} className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+              <button onClick={() => setShowCreate(false)} className="p-1 rounded-lg hover:bg-white/30 dark:hover:bg-white/10">
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
@@ -273,7 +273,7 @@ export default function UsersPage() {
                 </select>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-200/60 dark:border-white/10">
                 <button type="button" onClick={() => setShowCreate(false)} className="btn-secondary">Cancel</button>
                 <button type="submit" disabled={submitting} className="btn-primary">
                   {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}

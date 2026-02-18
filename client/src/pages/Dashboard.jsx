@@ -95,7 +95,7 @@ export default function Dashboard() {
                     <Cell key={i} fill={COLORS[i % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }} />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -111,7 +111,7 @@ export default function Dashboard() {
               <BarChart data={genreData} layout="vertical" margin={{ left: 80 }}>
                 <XAxis type="number" allowDecimals={false} />
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={80} />
-                <Tooltip />
+                <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px' }} />
                 <Bar dataKey="value" fill="#6366f1" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>

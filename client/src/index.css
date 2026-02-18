@@ -16,31 +16,25 @@
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-    background: rgba(255, 255, 255, 0.15);
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/30 dark:bg-white/10 border border-white/30 dark:border-white/15 text-gray-700 dark:text-gray-200 font-medium rounded-lg transition-all duration-200 hover:bg-white/50 dark:hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    @apply text-gray-700 dark:text-gray-200;
-  }
-  .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.25);
   }
   .btn-danger {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-gray-600 dark:text-gray-400 font-medium rounded-lg transition-all duration-200 hover:bg-white/10 focus:outline-none;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-gray-600 dark:text-gray-400 font-medium rounded-lg transition-all duration-200 hover:bg-white/30 dark:hover:bg-white/10 focus:outline-none;
   }
   .card {
     @apply rounded-xl shadow-sm;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.35);
   }
   :is(.dark) .card {
-    background: rgba(17, 24, 39, 0.6);
+    background: rgba(10, 15, 30, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
   .input {
@@ -48,11 +42,34 @@
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   :is(.dark) .input {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  select.input {
+    @apply text-gray-900 dark:text-gray-100;
+    background: rgba(255, 255, 255, 0.95);
+  }
+  :is(.dark) select.input {
+    background: rgba(30, 41, 59, 0.95);
+  }
+  select.input option {
+    @apply text-gray-900 bg-white;
+  }
+  :is(.dark) select.input option {
+    @apply text-gray-100;
+    background: #1e293b;
+  }
+  .login-input {
+    @apply w-full px-3.5 py-2.5 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .login-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: transparent;
   }
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
@@ -76,29 +93,31 @@
 
 /* Glassmorphism layers */
 .glass-sidebar {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
   border-color: rgba(255, 255, 255, 0.3);
 }
 :is(.dark) .glass-sidebar {
-  background: rgba(3, 7, 18, 0.65);
+  background: rgba(3, 7, 18, 0.4);
   border-color: rgba(255, 255, 255, 0.06);
 }
 
 .glass-topbar {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 :is(.dark) .glass-topbar {
-  background: rgba(3, 7, 18, 0.5);
+  background: rgba(3, 7, 18, 0.35);
   border-color: rgba(255, 255, 255, 0.06);
 }
 
 .glass-button {
   background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .glass-button:hover {
@@ -113,28 +132,37 @@
 }
 
 .glass-dropdown {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(24px) saturate(1.8);
-  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 :is(.dark) .glass-dropdown {
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(10, 15, 30, 0.7);
   border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
 .glass-modal {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(24px) saturate(1.8);
-  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 :is(.dark) .glass-modal {
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(10, 15, 30, 0.55);
   border-color: rgba(255, 255, 255, 0.08);
 }
 
 @layer utilities {
+  .animate-fade-in {
+    animation: fade-in 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   .scrollbar-thin {
     scrollbar-width: thin;
   }
