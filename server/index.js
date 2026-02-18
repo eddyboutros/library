@@ -19,7 +19,10 @@ const searchRoutes = require('./routes/search');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
+const corsOrigin = process.env.NODE_ENV === 'production'
+  ? (process.env.CLIENT_URL || true)
+  : (process.env.CLIENT_URL || 'http://localhost:5173');
+app.use(cors({ origin: corsOrigin, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 
 // ─── Passport Google OAuth ───
