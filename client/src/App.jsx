@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useSearchParams, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from './context/AuthContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
@@ -10,6 +10,8 @@ import Transactions from './pages/Transactions';
 import UsersPage from './pages/Users';
 import AIAssistant from './pages/AIAssistant';
 import ContentSearch from './pages/ContentSearch';
+import BookTransition from './components/BookTransition';
+import './components/BookTransition.css';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -26,21 +28,32 @@ function ProtectedRoute({ children }) {
 function AuthCallback() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const { loginWithToken, loadUser } = useAuth();
+  const { loginWithToken, loadUser, user } = useAuth();
+  const [transitioning, setTransitioning] = useState(false);
+
+  const handleTransitionComplete = useCallback(() => {
+    setTransitioning(false);
+    navigate('/', { replace: true });
+  }, [navigate]);
 
   useEffect(() => {
     const token = params.get('token');
     if (token) {
       localStorage.setItem('token', token);
-      loadUser().then(() => navigate('/', { replace: true }));
+      loadUser().then(() => setTransitioning(true));
     } else {
       navigate('/login', { replace: true });
     }
   }, [params, loginWithToken, loadUser, navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600" />
+    <div className="flex items-center justify-center min-h-screen bg-gray-950">
+      {!transitioning && (
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-600" />
+      )}
+      {transitioning && (
+        <BookTransition onComplete={handleTransitionComplete} userName={user?.name?.split(' ')[0] || ''} />
+      )}
     </div>
   );
 }
