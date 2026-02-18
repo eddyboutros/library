@@ -95,15 +95,20 @@ router.put('/me', authenticateToken, async (req, res) => {
 });
 
 // Google OAuth
+const googleNotConfigured = { error: 'Google SSO is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env' };
+
 router.get('/google', (req, res, next) => {
-  if (!process.env.GOOGLE_CLIENT_ID) {
-    return res.status(501).json({ error: 'Google SSO is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env' });
+  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    return res.status(501).json(googleNotConfigured);
   }
   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
 router.get('/google/callback',
   (req, res, next) => {
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=sso_not_configured`);
+    }
     passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=sso_failed` })(req, res, next);
   },
   (req, res) => {
