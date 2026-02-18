@@ -4,6 +4,7 @@ import { BookMarked, LogIn, UserPlus, Eye, EyeOff, Shield, BookOpen, Users, Load
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { login, register, demoLogin, getSSOStatus } from '../services/api';
+import DarkVeil from '../components/DarkVeil';
 
 export default function Login() {
   const { user, loginWithToken } = useAuth();
@@ -54,60 +55,61 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left: Hero */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-white/20 blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-white/10 blur-3xl" />
-        </div>
+    <div className="min-h-screen flex relative">
+      {/* Full-screen animated background */}
+      <div className="fixed inset-0 z-0">
+        <DarkVeil hueShift={220} noiseIntensity={0.02} scanlineIntensity={0} speed={0.25} scanlineFrequency={0} warpAmount={0.3} resolutionScale={0.5} />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
 
+      {/* Left: Hero */}
+      <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative z-10">
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/15 backdrop-blur-md border border-white/20">
               <BookMarked className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-3xl font-bold text-white">Athena Library</h1>
           </div>
-          <p className="text-primary-200 text-lg mt-1">Smart Library Management System</p>
+          <p className="text-white/70 text-lg mt-1">Smart Library Management System</p>
         </div>
 
         <div className="relative z-10 space-y-8">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="text-white font-semibold">Smart Catalog</h3>
-              <p className="text-primary-200 text-sm">Manage your entire book collection with AI-powered categorization</p>
+              <p className="text-white/60 text-sm">Manage your entire book collection with AI-powered categorization</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center">
               <Users className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="text-white font-semibold">Role-Based Access</h3>
-              <p className="text-primary-200 text-sm">Admin, Librarian, and Member roles with tailored permissions</p>
+              <p className="text-white/60 text-sm">Admin, Librarian, and Member roles with tailored permissions</p>
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center">
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="text-white font-semibold">AI Assistant</h3>
-              <p className="text-primary-200 text-sm">Get personalized recommendations and natural language search</p>
+              <p className="text-white/60 text-sm">Get personalized recommendations and natural language search</p>
             </div>
           </div>
         </div>
 
-        <p className="relative z-10 text-primary-300 text-sm">Powered by Excel-based storage • SSO Ready • AI Enhanced</p>
+        <p className="relative z-10 text-white/40 text-sm">Powered by Excel-based storage • SSO Ready • AI Enhanced</p>
       </div>
 
       {/* Right: Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-gray-50 dark:bg-gray-950">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative z-10">
+        <div className="w-full max-w-md glass-modal rounded-2xl p-8 shadow-2xl">
           <div className="lg:hidden flex items-center gap-3 mb-8">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-600 text-white">
               <BookMarked className="w-5 h-5" />
@@ -123,7 +125,7 @@ export default function Login() {
           </p>
 
           {/* Demo Accounts */}
-          <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-200 dark:border-primary-800">
+          <div className="mb-6 p-4 bg-primary-500/10 rounded-xl border border-primary-500/20">
             <p className="text-sm font-medium text-primary-800 dark:text-primary-300 mb-3">Quick Demo Access</p>
             <div className="grid grid-cols-3 gap-2">
               {[
@@ -135,7 +137,7 @@ export default function Login() {
                   key={d.role}
                   onClick={() => handleDemo(d.role)}
                   disabled={loading}
-                  className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-sm transition-all text-center"
+                  className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-lg bg-white/30 dark:bg-white/5 border border-white/20 dark:border-white/10 hover:bg-white/50 dark:hover:bg-white/10 hover:shadow-sm transition-all text-center"
                 >
                   <div className={`w-2 h-2 rounded-full ${d.color}`} />
                   <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{d.label}</span>
@@ -149,14 +151,14 @@ export default function Login() {
             <div className="mb-6">
               <a
                 href="/api/auth/google"
-                className="flex items-center justify-center gap-3 w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="flex items-center justify-center gap-3 w-full px-4 py-2.5 bg-white/40 dark:bg-white/5 border border-white/30 dark:border-white/10 rounded-lg hover:bg-white/60 dark:hover:bg-white/10 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                 Continue with Google
               </a>
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200 dark:border-gray-700" /></div>
-                <div className="relative flex justify-center text-xs"><span className="px-2 bg-gray-50 dark:bg-gray-950 text-gray-400">or continue with email</span></div>
+                <div className="relative flex justify-center text-xs"><span className="px-2 bg-white/60 dark:bg-gray-900/60 text-gray-400 rounded">or continue with email</span></div>
               </div>
             </div>
           )}
@@ -202,6 +204,7 @@ export default function Login() {
               {mode === 'login' ? 'Sign up' : 'Sign in'}
             </button>
           </p>
+        </div>
         </div>
       </div>
     </div>
