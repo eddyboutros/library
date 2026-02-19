@@ -6,6 +6,11 @@ const { generateToken, authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
+const clientUrl = () =>
+  process.env.CLIENT_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  'http://localhost:5173';
+
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -107,13 +112,13 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback',
   (req, res, next) => {
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=sso_not_configured`);
+      return res.redirect(`${clientUrl()}/login?error=sso_not_configured`);
     }
-    passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=sso_failed` })(req, res, next);
+    passport.authenticate('google', { session: false, failureRedirect: `${clientUrl()}/login?error=sso_failed` })(req, res, next);
   },
   (req, res) => {
     const token = generateToken(req.user);
-    res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/auth/callback?token=${token}`);
+    res.redirect(`${clientUrl()}/auth/callback?token=${token}`);
   }
 );
 
